@@ -9,11 +9,13 @@
 		"noFallthroughCasesInSwitch": true,
 		"noUncheckedIndexedAccess": true,
 		"moduleResolution": "node",
+		"ignoreDeprecations": "6.0",
 		"isolatedModules": true,
 		"skipLibCheck": true,
 		"forceConsistentCasingInFileNames": true,
 		"allowSyntheticDefaultImports": true,
-		"lib": ["ES2021", "DOM"]
+		"lib": ["ES2021", "DOM"],
+		"jsx": "react-jsx"
 	},
 	"include": ["src/**/*.ts"]
 }

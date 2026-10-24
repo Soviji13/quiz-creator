@@ -1,29 +1,19 @@
-import {
-	Editor,
-	MarkdownView,
-	MarkdownFileInfo,
-	Modal,
-	Notice,
-	Plugin,
-} from 'obsidian';
-import {
-	DEFAULT_SETTINGS,
-	MyPluginSettings,
-	SampleSettingTab,
-} from './settings';
+import { Editor, MarkdownView, MarkdownFileInfo, Modal, Notice, Plugin } from 'obsidian';
+import { DEFAULT_SETTINGS, MyPluginSettings, SampleSettingTab, } from './settings';
 
 // Remember to rename these classes and interfaces!
 
 export default class MyPlugin extends Plugin {
 	settings!: MyPluginSettings;
 
+	// When the user has the pluggin active
 	async onload() {
 		await this.loadSettings();
 
 		// This creates an icon in the left ribbon.
-		this.addRibbonIcon('dice', 'Sample', (_evt: MouseEvent) => {
+		this.addRibbonIcon('dice', 'Quiz Creator', (_evt: MouseEvent) => {
 			// Called when the user clicks the icon.
-			new Notice('This is a notice!');
+			new Notice('Quiz Creator!');
 		});
 
 		// This adds a status bar item to the bottom of the app. Does not work on mobile apps.

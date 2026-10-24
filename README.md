@@ -13,6 +13,31 @@ This sample plugin demonstrates some of the basic functionality the plugin API c
 - Registers a global click event and outputs a Notice on click.
 - Registers a global interval which logs 'setInterval' to the console.
 
+## Estructura de ficheros a seguir
+
+```text
+mi-plugin/
+├─ manifest.json
+├─ versions.json
+├─ styles.css
+├─ esbuild.config.mjs
+├─ tsconfig.json
+└─ src/
+   ├─ main.ts              # solo clase Plugin: registra cosas y delega
+   ├─ settings/
+   │  ├─ settings.ts       # interfaz + DEFAULT_SETTINGS
+   │  └─ SettingTab.ts
+   ├─ commands/            # un fichero por comando o grupo de comandos
+   ├─ views/               # ItemView/Modal de Obsidian que montan React
+   ├─ ui/                  # todo lo de React
+   │  ├─ components/
+   │  ├─ hooks/
+   │  └─ context/          # AppContext para pasar `app` a los componentes
+   ├─ services/            # lógica de negocio, sin React ni Obsidian si se puede
+   ├─ utils/
+   └─ types/
+```
+
 ## First time developing plugins?
 
 Quick starting guide for new plugin devs:
