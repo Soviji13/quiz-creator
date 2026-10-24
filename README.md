@@ -38,6 +38,9 @@ mi-plugin/
    └─ types/
 ```
 
+- `services/`: lee notas, elementos del vault y los traslada a la UI
+
+
 ## First time developing plugins?
 
 Quick starting guide for new plugin devs:
