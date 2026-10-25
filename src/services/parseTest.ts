@@ -48,7 +48,6 @@ export function parseTest (input: string): TestQuestion[] {
     // Iteramos por cada línea para obtener pregunta o respuesta
     for (const line of lines) {
       const testLine = line.trim();
-      if (!testLine) continue;
 
       // Si es una pregunta
       if (testLine.startsWith(QUESTION_TEST_INDICATOR) && !gotQuestion) {
