@@ -1,4 +1,4 @@
-import { describe, it, expect } from "vitest";
+import { it, expect } from "vitest";
 import { parseTest } from "../../services/parseTest";
 
 it ("Lee una pregunta bien formateada y sus respuestas", () => {

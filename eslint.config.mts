@@ -13,6 +13,7 @@ export default defineConfig(
 		'package.json',
 		'package-lock.json',
 		'tsconfig.json',
+		'coverage',
 	]),
 	{
 		languageOptions: {
@@ -21,7 +22,7 @@ export default defineConfig(
 			},
 			parserOptions: {
 				projectService: {
-					allowDefaultProject: ['eslint.config.mts', 'manifest.json'],
+					allowDefaultProject: ['eslint.config.mts', 'manifest.json', 'vitest.config.ts', 'eslint-plugin-obsidian.d.ts'],
 				},
 				tsconfigRootDir: import.meta.dirname,
 				extraFileExtensions: ['.json'],
