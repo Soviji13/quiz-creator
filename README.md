@@ -1,12 +1,12 @@
 # Quiz Creator
 
-![version](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/soviji13/quiz-creator/main/manifest.json&query=$.version&label=version)
+![version](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/Soviji13/quiz-creator/main/manifest.json&query=$.version&label=version)
 
-![status](https://img.shields.io/github/actions/workflow/status/soviji13/quiz-creator/lint.yml?branch=main)
+![status](https://img.shields.io/github/actions/workflow/status/Soviji13/quiz-creator/lint.yml?branch=main)
 
-![coverage](https://codecov.io/gh/soviji13/quiz-creator/graph/badge.svg)
+![coverage](https://codecov.io/gh/Soviji13/quiz-creator/graph/badge.svg)
 
-[![lastCommit](https://img.shields.io/github/last-commit/soviji13/quiz-creator)](https://github.com/soviji13/quiz-creator/commits)
+[![lastCommit](https://img.shields.io/github/last-commit/Soviji13/quiz-creator)](https://github.com/Soviji13/quiz-creator/commits)
 
 ## Estructura de ficheros a seguir
 
