@@ -1,17 +1,12 @@
-# Obsidian Sample Plugin
+# Quiz Creator
 
-This is a sample plugin for Obsidian (https://obsidian.md).
+![version](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/soviji13/quiz-creator/main/manifest.json&query=$.version&label=version)
 
-This project uses TypeScript to provide type checking and documentation.
-The repo depends on the latest plugin API (obsidian.d.ts) in TypeScript Definition format, which contains TSDoc comments describing what it does.
+![status](https://img.shields.io/github/actions/workflow/status/soviji13/quiz-creator/lint.yml?branch=main)
 
-This sample plugin demonstrates some of the basic functionality the plugin API can do.
+![coverage](https://codecov.io/gh/soviji13/quiz-creator/graph/badge.svg)
 
-- Adds a ribbon icon, which shows a Notice when clicked.
-- Adds a command "Open modal (simple)" which opens a Modal.
-- Adds a plugin setting tab to the settings page.
-- Registers a global click event and outputs a Notice on click.
-- Registers a global interval which logs 'setInterval' to the console.
+[![lastCommit](https://img.shields.io/github/last-commit/soviji13/quiz-creator)](https://github.com/soviji13/quiz-creator/commits)
 
 ## Estructura de ficheros a seguir
 

@@ -2,9 +2,15 @@ name: Node.js build
 
 on:
     push:
-        branches: ['**']
-    pull_request:
-        branches: ['**']
+        branches: 
+            - main
+    pull_request: 
+        branches: 
+            - main
+        types:
+            - opened
+            - synchronize
+            - reopened
 
 jobs:
     build:
@@ -23,5 +29,11 @@ jobs:
                   node-version: ${{ matrix.node-version }}
                   cache: 'npm'
             - run: npm ci
-            - run: npm run build --if-present
             - run: npm run lint
+            - run: npm test
+            - run: npm run build
+            - run: npx vitest run --coverage
+            - uses: codecov/codecov-action@v5
+              with:
+                token: ${{ secrets.CODECOV_TOKEN }}
+            
