@@ -35,6 +35,11 @@ mi-plugin/
 
 - `services/`: lee notas, elementos del vault y los traslada a la UI
 
+## Comandos
+
+- `npm run dev`: Compilar y construir en obsidian
+- `npm run test`: Ejecutar tests
+- `npx vitest run --coverage`: Comprobar cobertura de tests
 
 ## First time developing plugins?
 

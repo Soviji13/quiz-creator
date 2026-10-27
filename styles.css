@@ -1,3 +1,5 @@
+/* Tipo Test */
+
 .quiz-creator-test-block {
   border-bottom: 1px solid var(--background-modifier-border); 
   box-sizing: border-box; 
@@ -7,14 +9,33 @@
 }
 
 .quiz-creator-test-answer {
-  border: 1px solid var(--background-modifier-border); 
-  border-radius: 10px;
   box-sizing: border-box; 
-  padding-left: 10px;
+  width: 100%;
+
   margin: 10px 0;
+  padding-left: 15px;
+  overflow: hidden;
+
+  background-color: var(--background-modifier);
+  border: 1px solid var(--background-modifier-border);
+  border-radius: 8px;
+
   cursor: pointer;
 }
 
+.quiz-creator-test-answer p {
+  margin: 5px 0;
+}
+
+.quiz-creator-test-answer.is-selected {
+  background-color: var(--background-secondary);
+}
+
 .quiz-creator-test-answer:hover {
-  outline: 3px solid var(--background-modifier-border); 
+  outline: 1px solid var(--background-modifier-border); 
+}
+
+/* Quiz en general */
+.finish-button {
+  margin: 0 10px;
 }

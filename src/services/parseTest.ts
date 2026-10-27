@@ -4,25 +4,43 @@
  * Formato de preguntas esperado:
  * ```
  * # Pregunta 1
- * [] Respuesta
+ * [x] Respuesta correcta
  * [] Respuesta
  * [] Respuesta
  * ---
  * # Pregunta 2
  * [] Respuesta
- * [] Respuesta
- * [] Respuesta
+ * [x] Respuesta correcta
+ * [x] Respuesta correcta
  * 
  * ```
  */
 
-/* Fuera de scope: detectar respuesta correcta */
+// Fuera de scope: poder seleccionar el indicador de respuesta, pregunta y pregunta correcta
 
 import type { TestAnswer, TestQuestion } from "../types/test";
 import { INPUT_QUIZ_SEPARATOR, LINE_QUIZ_SEPARATOR } from "../constants";
+import { escapeRegex } from "../utils/regex";
 
-export const QUESTION_TEST_INDICATOR = '#';
-export const ANSWER_TEST_INDICATOR = '[]';
+const QUESTION_INDICATOR = '#';
+const ANSWER_INDICATOR: [string, string]= [`[`, `]`];
+const GOOD_ANSWER_INDICATOR = `x`
+
+/* Función auxiliar para devolver las respuestas correctas y no correctas */
+function getAnswerMatchers(
+  brackets = ANSWER_INDICATOR,
+  marker = GOOD_ANSWER_INDICATOR
+) {
+  const [open, close] = brackets;
+  const safeOpen = escapeRegex(open);
+  const safeClose = escapeRegex(close);
+  const safeMarker = escapeRegex(marker);
+
+  return {
+    isCorrect: new RegExp(`^\\s*${safeOpen}\\s*${safeMarker}\\s*${safeClose}`, 'i'),
+    isIncorrect: new RegExp(`^\\s*${safeOpen}\\s*${safeClose}`)
+  };
+}
 
 
 export function parseTest (input: string): TestQuestion[] {
@@ -31,9 +49,9 @@ export function parseTest (input: string): TestQuestion[] {
   const inputTrimmed = input.trim();
   if (!inputTrimmed) return [];
 
+  // Constantes
+  const matcher = getAnswerMatchers();
   const testQuestions: TestQuestion[] = [];
-
-  // Separamos los bloques de las distintas preguntas con sus respuestas 
   const questionBlocks = inputTrimmed.split(INPUT_QUIZ_SEPARATOR);
 
   // Iteramos sobre cada bloque de preguntas
@@ -50,21 +68,28 @@ export function parseTest (input: string): TestQuestion[] {
       const testLine = line.trim();
 
       // Si es una pregunta
-      if (testLine.startsWith(QUESTION_TEST_INDICATOR) && !gotQuestion) {
-        question = testLine.replace(QUESTION_TEST_INDICATOR, "").trim();
+      if (testLine.startsWith(QUESTION_INDICATOR) && !gotQuestion) {
+        question = testLine.replace(QUESTION_INDICATOR, "").trim();
         gotQuestion = true;
 
-      // Si es una respuesta
-      } else if (testLine.startsWith(ANSWER_TEST_INDICATOR)) {
-        const answer = testLine.replace(ANSWER_TEST_INDICATOR, "").trim();
+      // Si es una respuesta común
+      } else if (matcher.isCorrect.test(testLine) || matcher.isIncorrect.test(testLine)) {
 
-        const testAnswer: TestAnswer = {
-          text: answer,
-          correct: false
+        // Comprobamos si la respuesta no es nula
+        const answerText = matcher.isCorrect.test(testLine) 
+          ? testLine.replace(matcher.isCorrect, "").trim() 
+          : testLine.replace(matcher.isIncorrect, "").trim();
+
+        if (answerText) {
+          const testAnswer: TestAnswer = {
+            text: answerText,
+            correct: matcher.isCorrect.test(testLine) ? true : false,
+            id: crypto.randomUUID(),
+          }
+
+          answers.push(testAnswer);
         }
-
-        answers.push(testAnswer);
-      }
+      } 
 
     }
 
@@ -72,7 +97,8 @@ export function parseTest (input: string): TestQuestion[] {
     if (question && answers.length > 0) {
       const testQuestion: TestQuestion = {
         question,
-        answers
+        answers,
+        id: crypto.randomUUID(),
       }
 
       testQuestions.push(testQuestion);

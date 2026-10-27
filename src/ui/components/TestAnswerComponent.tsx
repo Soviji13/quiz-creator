@@ -1,10 +1,20 @@
-export interface TestAnswerProps {
+/* Componente de respuesta en tipo test */
+
+export interface TestAnswerProps extends React.HTMLAttributes<HTMLDivElement>{
   children: string;
+  isActive: boolean;
+  onClick: () => void;
 }
 
-export function TestAnswerComponent ({children}: TestAnswerProps) {
+export function TestAnswerComponent ({children, isActive, onClick}: TestAnswerProps) {
+
   return (
-    <div className="quiz-creator-test-answer">
+    <div 
+      className={`quiz-creator-test-answer ${isActive ? "is-selected" : ""}`}
+      role="button"
+      tabIndex={0} 
+      onClick={onClick}  
+    >
       <p>{children}</p>
     </div>
   )
