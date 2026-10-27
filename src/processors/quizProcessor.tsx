@@ -1,4 +1,4 @@
-/* Registramos el test en .md a JSON por ahora */
+/* Pasamos el input del usuario a render  */
 
 import type QuizCreatorPlugin from "../main";
 import { MarkdownRenderChild } from "obsidian";
