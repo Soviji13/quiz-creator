@@ -1,5 +1,7 @@
 /* Componente de respuesta en tipo test */
 
+import React from "react";
+
 export interface TestAnswerProps extends React.HTMLAttributes<HTMLDivElement>{
   children: string;
   isActive: boolean;
