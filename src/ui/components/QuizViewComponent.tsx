@@ -3,40 +3,34 @@
 import { TestQuestion } from "../../types/test"
 import { TestBlockComponent } from "./TestBlockComponent"
 import { TestAnswerComponent } from "./TestAnswerComponent"
-import { useState } from "react"
-
-/* Diccionario k: testQuestion.id, v: array testAnswer.id seleccionadas */
-type TestSelections = Record<string, string[]>;
+import { useTest } from "../hooks/useTest"
+import { OVER_SCORE } from "../../constants"
 
 export function QuizViewComponent ({ testQuestions }: {testQuestions: TestQuestion[]}) {
 
-  const [testSelections, setTestSelections] = useState<TestSelections>({});
-
-  /* Activa o desactiva el estar pulsado o no */
-  const toggleTestAnswer = (answerId: string, questionId: string) => {
-    setTestSelections((prev) => {
-
-      const selectedAnswers = prev[questionId] ?? [];
-
-      const updatedSelectedAnswers = selectedAnswers.includes(answerId) 
-        ? selectedAnswers.filter(id => answerId !== id) 
-        : [...selectedAnswers, answerId]
-
-      return {
-        ...prev,
-        [questionId]: updatedSelectedAnswers 
-      };
-    });
-  };
+  const { 
+    toggleTestAnswer, 
+    testSelections, 
+    clearTestSelections,
+    getResults,
+    showResults,
+    quizResult
+  } = useTest();
   
   return (
     <div>
       { testQuestions.map((testQuestion, i) => (
-          <TestBlockComponent question={testQuestion.question} key={testQuestion.id}>
-            { testQuestion.answers.map((testAnswer, j) => (
+          <TestBlockComponent 
+            question={`${i+1}. ${testQuestion.question}`} 
+            key={testQuestion.id}
+            showResults={showResults}
+          >
+            { testQuestion.answers.map((testAnswer) => (
                 <TestAnswerComponent 
+                  showResults={showResults}
                   key={testAnswer.id}
                   isActive={ testSelections[testQuestion.id]?.includes(testAnswer.id) ?? false}
+                  isCorrect={ testAnswer.correct }
                   onClick={() => toggleTestAnswer(testAnswer.id, testQuestion.id)}
                 >
                   {testAnswer.text}
@@ -46,14 +40,32 @@ export function QuizViewComponent ({ testQuestions }: {testQuestions: TestQuesti
           </TestBlockComponent>
         )) 
       } 
-      <button className="finish-button">Comprobar resultados</button>
-      <button 
-        className="finish-button"
-        type="button"
-        onClick={() => setTestSelections({})}
-      >
-        Limpiar
-      </button>
+      <div style={{display: 'flex', alignItems: 'center'}}>
+        <button 
+          className="finish-button"
+          onClick={() => getResults(testQuestions)}
+        >
+          Comprobar resultados
+        </button>
+        <button 
+          className="finish-button"
+          type="button"
+          onClick={() => clearTestSelections()}
+        >
+          Limpiar
+        </button>
+        {showResults &&
+          <p 
+            style={{
+              fontWeight: 600, 
+              margin: '0px',
+              marginLeft: '10px',
+            }}
+          >
+            {`Resultado: ${quizResult.correctCount} / ${quizResult.totalQuestions} (${quizResult.score} / ${OVER_SCORE})`}
+          </p>
+        }
+      </div>
     </div>
   )
 }

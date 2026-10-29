@@ -16,11 +16,30 @@
   padding-left: 15px;
   overflow: hidden;
 
-  background-color: var(--background-modifier);
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.quiz-creator-test-answer.normal {
   border: 1px solid var(--background-modifier-border);
   border-radius: 8px;
+}
 
-  cursor: pointer;
+.quiz-creator-test-answer.green.is-selected {
+  border: 1px solid var(--color-green);
+  color: var(--background-primary);
+  background-color: var(--background-modifier-success);
+  border-radius: 8px;
+}
+
+.quiz-creator-test-answer.green {
+  border: 1px solid var(--color-green);
+  border-radius: 8px;
+}
+
+.quiz-creator-test-answer.red {
+  border: 1px solid var(--color-red);
+  border-radius: 8px;
 }
 
 .quiz-creator-test-answer p {
@@ -31,8 +50,16 @@
   background-color: var(--background-secondary);
 }
 
-.quiz-creator-test-answer:hover {
+.quiz-creator-test-answer.normal:hover {
   outline: 1px solid var(--background-modifier-border); 
+}
+
+.quiz-creator-test-answer.red:hover {
+  outline: 1px solid var(--color-red); 
+}
+
+.quiz-creator-test-answer.green:hover {
+  outline: 1px solid var(--color-green); 
 }
 
 /* Quiz en general */

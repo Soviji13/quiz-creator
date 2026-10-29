@@ -5,8 +5,7 @@
 
 import type { TestQuestion } from "../types/test";
 import type { QuizResult } from "../types/quiz";
-
-const OVER_SCORE = 10;
+import { OVER_SCORE } from "../constants";
 
 export function evaluateQuiz (testQuestions: TestQuestion[], userAnswers: Record<string, string[]>): QuizResult {
 
