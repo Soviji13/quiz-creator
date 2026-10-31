@@ -37,11 +37,8 @@ export function useTest () {
 
   const getResults = (testQuestions: TestQuestion[]) => {
     setShowResults(true);
-    setQuizResult((prev) => ({
-      ...prev,
-      ...evaluateQuiz(testQuestions, testSelections)
-    }))
-  }
+    setQuizResult(evaluateQuiz(testQuestions, testSelections));
+  };
 
   /* Limpiar vistas */
   const clearTestSelections = () => {
