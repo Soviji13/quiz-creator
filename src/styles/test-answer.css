@@ -1,0 +1,57 @@
+/* Estilos relacionados con una respuesta del tipo test */
+
+/* Componente principal que comparten todos */
+.quiz-creator-test-answer {
+  box-sizing: border-box; 
+  width: 100%;
+
+  margin: 10px 0;
+  padding-left: 15px;
+
+  overflow: hidden;
+  border-radius: 8px;
+  cursor: pointer;
+  border: 1px solid var(--background-modifier-border);
+
+  /* Su texto */
+  p {
+    margin: 5px 0;
+  }
+
+  /* Borde por defecto */
+  &.normal {
+    border: 1px solid var(--background-modifier-border);
+
+    &:hover {
+      outline: 1px solid var(--background-modifier-border); 
+    }
+  }
+
+  /* Si el usuario la clicó */
+  &.is-selected {
+    background-color: var(--background-secondary);
+
+    /* Si al mostrar los resultados era correcta */
+    &.correct {
+      background-color: var(--color-green);
+      cursor: default;
+      color: var(--text-on-accent)
+    }
+
+    /* Si al mostrar los usuarios era incorrecta */
+    &.incorrect {
+      background-color: var(--color-red);
+      cursor: default;
+      color: var(--text-on-accent)
+    }
+  }
+
+  /* Si era correcta pero no se clicó */
+  &.correct {
+    border: var(--color-green) 1px solid;
+  }
+}
+
+
+
+

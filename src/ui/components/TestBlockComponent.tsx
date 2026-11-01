@@ -9,7 +9,7 @@ export interface TestBlockProps {
 export function TestBlockComponent ({question, children, showResults}: TestBlockProps) {
   return (
     <div className="quiz-creator-test-block">
-      <p style={{fontWeight: 600}}>{question} {showResults ? <span style={{fontWeight: 900, marginLeft: '10px'}}>·</span> : ''}</p>
+      <p style={{fontWeight: 600}}>{question}</p>
       <div>
         {children}
       </div>

@@ -16,5 +16,9 @@
 		"lib": ["ES2021", "DOM"],
 		"jsx": "react-jsx"
 	},
-	"include": ["src/**/*.ts", "src/processors/quizProcessor.tsx"]
+	"include": [
+		"src/**/*.ts", 
+		"src/**/*.tsx",
+		"src/**/*.d.ts"
+	]
 }

@@ -43,6 +43,7 @@ export function useTest () {
   /* Limpiar vistas */
   const clearTestSelections = () => {
     setTestSelections({});
+    setQuizResult({totalQuestions: 0, correctCount: 0, score: 0});
     setShowResults(false);
   };
 

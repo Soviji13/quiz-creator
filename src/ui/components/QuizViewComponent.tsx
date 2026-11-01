@@ -42,13 +42,13 @@ export function QuizViewComponent ({ testQuestions }: {testQuestions: TestQuesti
       } 
       <div style={{display: 'flex', alignItems: 'center'}}>
         <button 
-          className="finish-button"
+          className="button"
           onClick={() => getResults(testQuestions)}
         >
           Comprobar resultados
         </button>
         <button 
-          className="finish-button"
+          className="button"
           type="button"
           onClick={() => clearTestSelections()}
         >

@@ -1,7 +1,6 @@
 /* Componente de respuesta en tipo test */
 
-import React, { useState } from "react";
-import { useTest } from "../hooks/useTest";
+import React from "react";
 
 export interface TestAnswerProps extends React.HTMLAttributes<HTMLDivElement>{
   children: string;
@@ -11,7 +10,7 @@ export interface TestAnswerProps extends React.HTMLAttributes<HTMLDivElement>{
   onClick: () => void;
 }
 
-type BorderColor = 'normal' | 'green' | 'red';
+type BorderColor = 'normal' | 'correct' | 'incorrect';
 
 export function TestAnswerComponent ({children, isActive, onClick, isCorrect, showResults}: TestAnswerProps) {
 
@@ -19,9 +18,9 @@ export function TestAnswerComponent ({children, isActive, onClick, isCorrect, sh
 
   if (showResults) {
     if (isActive) {
-      borderColor = isCorrect ? 'green' : 'red';
+      borderColor = isCorrect ? 'correct' : 'incorrect';
     } else if (isCorrect) {
-      borderColor = 'green';
+      borderColor = 'correct';
     }
   } else {
     borderColor = 'normal';
@@ -32,7 +31,7 @@ export function TestAnswerComponent ({children, isActive, onClick, isCorrect, sh
       className={`quiz-creator-test-answer ${borderColor} ${isActive ? "is-selected" : ""}`}
       role="button"
       tabIndex={0} 
-      onClick={() => !showResults ? onClick() : ''}  
+      onClick={() => {if (!showResults) onClick();}}  
     >
       <p>{children}</p>
     </div>

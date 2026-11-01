@@ -1,60 +1,52 @@
-/* Tipo Test */
+/* src/styles/buttons.css */
+.button {
+  margin: 0 10px;
+}
 
+/* src/styles/test-block.css */
 .quiz-creator-test-block {
-  border-bottom: 1px solid var(--background-modifier-border); 
-  box-sizing: border-box; 
+  border-bottom: 1px solid var(--background-modifier-border);
+  box-sizing: border-box;
   margin: 20px 0;
   padding: 0 15px 10px 15px;
   cursor: default;
 }
 
+/* src/styles/test-answer.css */
 .quiz-creator-test-answer {
-  box-sizing: border-box; 
+  box-sizing: border-box;
   width: 100%;
-
   margin: 10px 0;
   padding-left: 15px;
   overflow: hidden;
-
   border-radius: 8px;
   cursor: pointer;
-}
-
-.quiz-creator-test-answer.normal {
   border: 1px solid var(--background-modifier-border);
-  border-radius: 8px;
+  p {
+    margin: 5px 0;
+  }
+  &.normal {
+    border: 1px solid var(--background-modifier-border);
+    &:hover {
+      outline: 1px solid var(--background-modifier-border);
+    }
+  }
+  &.is-selected {
+    background-color: var(--background-secondary);
+    &.correct {
+      background-color: var(--color-green);
+      cursor: default;
+      color: var(--text-on-accent);
+    }
+    &.incorrect {
+      background-color: var(--color-red);
+      cursor: default;
+      color: var(--text-on-accent);
+    }
+  }
+  &.correct {
+    border: var(--color-green) 1px solid;
+  }
 }
 
-.quiz-creator-test-answer.green.is-selected {
-  color: var(--background-primary);
-  background-color: var(--background-modifier-success);
-  border-radius: 8px;
-}
-
-.quiz-creator-test-answer.green {
-  border: 1px solid var(--color-green);
-  border-radius: 8px;
-}
-
-.quiz-creator-test-answer.red.is-selected {
-  color: var(--background-primary);
-  background-color: var(--color-red);
-  border-radius: 8px;
-}
-
-.quiz-creator-test-answer p {
-  margin: 5px 0;
-}
-
-.quiz-creator-test-answer.is-selected {
-  background-color: var(--background-secondary);
-}
-
-.quiz-creator-test-answer.normal:hover {
-  outline: 1px solid var(--background-modifier-border); 
-}
-
-/* Quiz en general */
-.finish-button {
-  margin: 0 10px;
-}
+/* src/styles/index.css */
