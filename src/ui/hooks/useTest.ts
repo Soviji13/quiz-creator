@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { QuizResult } from "../../types/quiz";
-import { TestQuestion } from "../../types/test";
+import { TestQuestion } from "../../types/answers";
 import { evaluateQuiz } from "../../services/evaluateQuiz";
 
 type TestSelections = Record<string, string[]>;

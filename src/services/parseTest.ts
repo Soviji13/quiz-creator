@@ -14,17 +14,16 @@
  * [x] Respuesta correcta
  * 
  * ```
- */
+**/
 
-// Fuera de scope: poder seleccionar el indicador de respuesta, pregunta y pregunta correcta
+// Fuera de scope: poder configurar el indicador de respuesta, pregunta y pregunta correcta
 
-import type { TestAnswer, TestQuestion } from "../types/test";
+import type { TestAnswer, TestQuestion } from "../types/answers";
 import { INPUT_QUIZ_SEPARATOR, LINE_QUIZ_SEPARATOR } from "../constants";
 import { escapeRegex } from "../utils/regex";
 
 const QUESTION_INDICATOR = '#';
-const ANSWER_INDICATOR: [string, string]= [`[`, `]`];
-const GOOD_ANSWER_INDICATOR = `x`
+
 
 /* Función auxiliar para devolver las respuestas correctas y no correctas */
 function getAnswerMatchers(

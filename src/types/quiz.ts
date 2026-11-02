@@ -1,6 +1,12 @@
 /* Tipos de un quiz genérico */
-export interface QuizResult {
-  totalQuestions: number;
-  correctCount: number;
-  score: number;            // Sobre 10 o lo que el usuario quiera en un futuro
+
+import { ChoiceQuestionBlock, OpenEndedBlock } from "./questions";
+
+/* Bloque de pregunta + resupuesta de un quiz */
+export interface QuizBlock {
+  id: string;
+  question: string;
 }
+
+// Tipos de preguntas y respuestas
+export type QuizQuestion = ChoiceQuestionBlock | OpenEndedBlock;

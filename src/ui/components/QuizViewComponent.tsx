@@ -1,6 +1,6 @@
 /* Vista de un quiz */
 
-import { TestQuestion } from "../../types/test"
+import { TestQuestion } from "../../types/answers"
 import { TestBlockComponent } from "./TestBlockComponent"
 import { TestAnswerComponent } from "./TestAnswerComponent"
 import { useTest } from "../hooks/useTest"

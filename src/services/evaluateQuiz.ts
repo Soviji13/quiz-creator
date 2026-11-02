@@ -3,7 +3,7 @@
 // En scope: solo tipo test y que coincidan todas las respuestas
 // Fuera de scope: Añadir más tipo y que incorrectas en tipo test resten si el usuario activa la opción
 
-import type { TestQuestion } from "../types/test";
+import type { TestQuestion } from "../types/answers";
 import type { QuizResult } from "../types/quiz";
 import { OVER_SCORE } from "../constants";
 

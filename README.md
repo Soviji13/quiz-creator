@@ -38,6 +38,7 @@ mi-plugin/
 ## Comandos
 
 - `pnpm dev`: Compilar en modo watch y construir en obsidian
+- `pnpm run build`: Comprobar antes de producción
 - `pnpm test`: Ejecutar tests
 - `pnpm exec vitest run --coverage`: Comprobar cobertura de tests
 - `pnpm docs:dev`: Levantar la página de documentación en local para desarrollo
@@ -64,7 +65,7 @@ quiz-creator/
 
 ## CI para desplegar docs en GitHub Pages (añadirlo posteriormente)
 
-````text
+```text
 name: Deploy Docs
 
 on:
