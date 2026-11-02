@@ -37,9 +37,80 @@ mi-plugin/
 
 ## Comandos
 
-- `pnpm run dev`: Compilar y construir en obsidian
+- `pnpm dev`: Compilar en modo watch y construir en obsidian
 - `pnpm test`: Ejecutar tests
 - `pnpm exec vitest run --coverage`: Comprobar cobertura de tests
+- `pnpm docs:dev`: Levantar la página de documentación en local para desarrollo
+- `pnpm docs:build`, `pnpm docs:preview`: Comprobar página antes de producción
+
+
+## Estructura de documentación
+
+```text
+quiz-creator/
+├── docs/
+│   ├── .vitepress/
+│   │   └── config.mts       <-- Configuración del menú y sidebar
+│   ├── index.md             <-- Landing page de la web
+│   ├── getting-started.md   <-- Instalación y primer quiz
+│   ├── syntax/
+│   │   ├── basic.md         <-- Pregunta simple, opciones, respuestas
+│   │   └── advanced.md      <-- Callouts, explicaciones, puntuación
+│   └── styling.md           <-- Cómo personalizarlo con CSS
+├── src/                     <-- El código de tu plugin
+├── esbuild.config.mjs
+└── package.json
+```
+
+## CI para desplegar docs en GitHub Pages (añadirlo posteriormente)
+
+````text
+name: Deploy Docs
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'docs/**'
+      - '.github/workflows/deploy-docs.yml'
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v3
+        with:
+          version: 9
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+      - run: pnpm install
+      - run: pnpm docs:build
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: docs/.vitepress/dist
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
+```
 
 ## First time developing plugins?
 
