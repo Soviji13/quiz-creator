@@ -8,7 +8,7 @@ En este apartado aprenderás a:
 Para saber los conceptos básicos, vamos a realizar un Quiz de cultura general para ver cuánto sabemos. Abre una nota de obsidian cualquiera, ¡que vamos a empezar!
 
 > [!important] Importante
-> El apartado `Estructura básica de un Quiz` es esencial para que sepas cómo hacer un quiz. El resto puedes obviarlos si no tienes como objetivo añadir ese tipo de preguntas en tu quiz.
+> El apartado `Estructura básica de un Quiz` es esencial para que sepas cómo hacer un quiz. El resto de apartados puedes obviarlos si no tienes como objetivo añadir ese tipo de preguntas en tu quiz. Sin embargo, con solo esa estructura no se renderízará nada, debes saber cómo poner mínimo un tipo de respuesta.
 
 ## Índice
 

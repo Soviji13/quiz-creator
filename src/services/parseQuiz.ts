@@ -54,37 +54,35 @@ export function parseQuiz (input: string): QuizQuestion[] {
     let openEndedAnswer: OpenEndedAnswer = {id: '', answer: '', keyWords: []};
 
     // Iteramos sobre cada línea
-    for (const line of questionBlock.split(LINE_QUIZ_SEPARATOR)) {
+    for (let line of questionBlock.split(LINE_QUIZ_SEPARATOR)) {
+
+      line = line.trim();
 
       // Si es una pregunta
-      if (line.trim().startsWith(QUESTION_INDICATOR) && !gotQuestion) {
+      if (line.startsWith(QUESTION_INDICATOR) && !gotQuestion) {
         question = line.replace(QUESTION_INDICATOR, "").trim();
         gotQuestion = true;
 
       // Si es una respuesta tipo test
-      } else if (
-        !isOpenEnded 
-        && (testMatchers.isCorrect.test(line.trim()) 
-          ||testMatchers.isIncorrect.test(line.trim()))
-      ) {
-        isChoice = addChoices(line, choiceAnswers);
+      } else if (!isOpenEnded && line.match(CHOICE_REGEX)) {
+        const choiceParsed = createChoice(line.match(CHOICE_REGEX));
+        if (choiceParsed) {
+          choiceAnswers.push(choiceParsed);
+          isChoice = true;
+        }
 
       // Si es una respuesta de desarrollo
-      } else if (
-        !isChoice 
-        && line.trim().startsWith(OPEN_ENDED_ANSWER_INDICATOR)
-      ) {
+      } else if (!isChoice && line.startsWith(OPEN_ENDED_ANSWER_INDICATOR)) {
         const openEndedParsed = createOpenEndedAnswer(line);
         if (openEndedParsed) {
-          openEndedAnswer = openEndedParsed.answer;
-          isOpenEnded = openEndedParsed.isOpenEnded;
+          openEndedAnswer = openEndedParsed;
+          isOpenEnded = true;
         }
       }
     }
 
     // Construimos la pregunta
-    addToQuiz (isOpenEnded, isChoice, openEndedAnswer, choiceAnswers, output, question);
-
+    if (gotQuestion) addToQuiz (isOpenEnded, isChoice, openEndedAnswer, choiceAnswers, output, question);
   }
 
   return output;
@@ -95,37 +93,41 @@ export function parseQuiz (input: string): QuizQuestion[] {
 
 
 /* Constante auxiliar para devolver los marcadores de tests correctos y no correctos */
-const testMatchers = (() => {
+const CHOICE_REGEX = (() => {
   const [open, close] = TEST_ANSWER_INDICATOR;
   const safeOpen = escapeRegex(open);
   const safeClose = escapeRegex(close);
   const safeMarker = escapeRegex(GOOD_TEST_ANSWER_INDICATOR);
 
-  return {
-    isCorrect: new RegExp(`^\\s*${safeOpen}\\s*${safeMarker}\\s*${safeClose}`, 'i'),
-    isIncorrect: new RegExp(`^\\s*${safeOpen}\\s*${safeClose}`)
-  };
+  /**
+   * [0] -> Línea completa que conicidió
+   * [1] -> true si hay 'x'
+   * [2] -> Texto de la opción 
+   * */ 
+  return new RegExp(`^\\s*${safeOpen}\\s*(${safeMarker})?\\s*${safeClose}\\s*(.+)$`, 'i');
 })();
 
-/* Función auxiliar para almacenar las respuestas de un tipo test */
-function addChoices (input: string, answers: ChoiceAnswer[]): boolean {
-  // Comprobamos si la respuesta no es nula y extraemos su texto
-  const choiceText = testMatchers.isCorrect.test(input.trim()) 
-    ? input.replace(testMatchers.isCorrect, "").trim() 
-    : input.replace(testMatchers.isIncorrect, "").trim();
-        
-  if (choiceText) {
+
+
+/* Función auxiliar para almacenar las elecciones de un tipo test */
+const createChoice = (input: RegExpMatchArray | null) => {
+
+  if (!input) return null; 
+
+  if (input[2]) {
     const choice: ChoiceAnswer = {
       id: crypto.randomUUID(),
-      correct: testMatchers.isCorrect.test(input.trim()) ? true : false,
-      text: choiceText
+      correct: input[1] ? true : false,
+      text: input[2]
     };
-    answers.push(choice);
-    return true;
-  }
 
-  return false;
+    return choice;
+  } else {
+    return null;
+  }
 };
+
+
 
 /* Función auxiliar para registrar una respuesta de desarrollo */
 const createOpenEndedAnswer = (input: string) => {
@@ -137,10 +139,12 @@ const createOpenEndedAnswer = (input: string) => {
       answer: openEndedText,
       keyWords: []
     };
-    return {answer: answer,isOpenEnded: true};   
+    return answer;   
   }
   return null;
 };
+
+
 
 /* Función auxiliar para añadir una pregunta del tipo que sea al quiz */
 function addToQuiz (
@@ -151,16 +155,17 @@ function addToQuiz (
   quiz: QuizQuestion[],
   question: string
 ): void {
+
+  // Si es multiopción
   if (choiceAnswers.length > 0 && !isOpenEnded && isChoice) {
     const choiceBlock: ChoiceQuestionBlock = {
       id: crypto.randomUUID(),
       question: question,
       choices: choiceAnswers
     };
-
-    // Añadimos la pregunta al quiz completo
     quiz.push(choiceBlock);
 
+  // Si es de desarrollo
   } else if (isOpenEnded && openEndedAnswer.id) {
     const openEndedBlock: OpenEndedBlock = {
       id: crypto.randomUUID(),
