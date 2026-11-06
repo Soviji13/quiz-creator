@@ -1,49 +1,65 @@
 /* Vista de un quiz */
 
-import { Quiz } from "../../types/quiz"
 import { TestBlockComponent } from "./TestBlockComponent"
 import { TestAnswerComponent } from "./TestAnswerComponent"
-import { useTest } from "../hooks/useTest"
-import { OVER_SCORE } from "../../constants"
+import { useTest } from "../hooks/useQuiz"
+import { QuizQuestion } from "../../types/quiz";
+import { OVER_SCORE } from '../../constants'
 
-export function QuizViewComponent ({ testQuestions }: {testQuestions: TestQuestion[]}) {
+export function QuizViewComponent ({ quizQuestions }: {quizQuestions: QuizQuestion[]}) {
 
+  console.log("quizQuestions en la vista:", quizQuestions);
+  
   const { 
     toggleTestAnswer, 
     testSelections, 
     clearTestSelections,
     getResults,
     showResults,
-    quizResult
+    quizResult,
+    score
   } = useTest();
   
   return (
     <div>
-      { testQuestions.map((testQuestion, i) => (
-          <TestBlockComponent 
-            question={`${i+1}. ${testQuestion.question}`} 
-            key={testQuestion.id}
-            showResults={showResults}
-          >
-            { testQuestion.answers.map((testAnswer) => (
-                <TestAnswerComponent 
-                  showResults={showResults}
-                  key={testAnswer.id}
-                  isActive={ testSelections[testQuestion.id]?.includes(testAnswer.id) ?? false}
-                  isCorrect={ testAnswer.correct }
-                  onClick={() => toggleTestAnswer(testAnswer.id, testQuestion.id)}
-                >
-                  {testAnswer.text}
-                </TestAnswerComponent>
-              )) 
-            }
-          </TestBlockComponent>
-        )) 
-      } 
+      { quizQuestions.map((block, i) => {
+
+          /* Tipo test */ 
+          if (block.type === 'choice') {
+            return (
+              <TestBlockComponent 
+                question={`${i+1}. ${block.question}`} 
+                showResults={showResults}
+                key={block.id}
+              >
+                { block.choices.map((choice, i) => (
+                  <TestAnswerComponent
+                    isActive={ testSelections[block.id]?.includes(choice.id) ?? false}
+                    key={choice.id}
+                    showResults={showResults}
+                    isCorrect={choice.correct}
+                    onClick={() => toggleTestAnswer(choice.id, block.id)}
+                  >
+                    {choice.text}
+                  </TestAnswerComponent>
+                ))}
+              </TestBlockComponent>
+            );
+          }
+
+          /* Desarrollo */
+          if (block.type === 'open-ended') {
+            return (
+              <p>Posteriormente se lanzará...</p>
+            )
+          }
+      })} 
       <div style={{display: 'flex', alignItems: 'center'}}>
         <button 
           className="button"
-          onClick={() => getResults(testQuestions)}
+          onClick={() => {getResults(quizQuestions.filter (
+            (q) => {return q.type === 'choice'})
+          )}}
         >
           Comprobar resultados
         </button>
@@ -62,7 +78,7 @@ export function QuizViewComponent ({ testQuestions }: {testQuestions: TestQuesti
               marginLeft: '10px',
             }}
           >
-            {`Resultado: ${quizResult.correctCount} / ${quizResult.totalQuestions} (${quizResult.score} / ${OVER_SCORE})`}
+            {`Resultado: ${quizResult.correctCount} / ${quizResult.totalQuestions} (${score} / ${OVER_SCORE})`}
           </p>
         }
       </div>

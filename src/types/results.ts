@@ -1,6 +1,4 @@
-/* Resultados */
-
-export interface BlockResult {
-  totalQuestions: number;
-  correct: number; 
+export interface Result {
+  totalQuestions: number,
+  correctCount: number
 }

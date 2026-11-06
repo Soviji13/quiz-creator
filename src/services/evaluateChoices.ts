@@ -3,11 +3,10 @@
 // En scope: solo tipo test y que coincidan todas las respuestas
 // Fuera de scope: Añadir más tipo y que incorrectas en tipo test resten si el usuario activa la opción
 
-import type { TestQuestion } from "../types/answers";
-import type { QuizResult } from "../types/quiz";
-import { OVER_SCORE } from "../constants";
+import type { ChoiceQuestionBlock } from "../types/questions";
+import type { Result } from "../types/results";
 
-export function evaluateQuiz (testQuestions: TestQuestion[], userAnswers: Record<string, string[]>): QuizResult {
+export function evaluateChoices (testQuestions: ChoiceQuestionBlock[], userAnswers: Record<string, string[]>): Result {
 
   let correctCount = 0;
   let totalQuestions = 0;
@@ -17,8 +16,8 @@ export function evaluateQuiz (testQuestions: TestQuestion[], userAnswers: Record
 
     const selectedAnswers = new Set(userAnswers[question.id] ?? []);
     let correctUserCount = 0;
-    const correctAnswers = question.answers.filter(answer => {
-      return answer.correct;
+    const correctAnswers = question.choices.filter(c => {
+      return c.correct;
     })
 
     // Comprobamos que el usuario ha pulsado sobre el mismo o menor número de respuestas que el número de respuestas correctas
@@ -36,6 +35,5 @@ export function evaluateQuiz (testQuestions: TestQuestion[], userAnswers: Record
   return {
     totalQuestions,
     correctCount,
-    score: totalQuestions > 0 ? Number((correctCount/totalQuestions * OVER_SCORE).toFixed(2)) : 0
   }
 }

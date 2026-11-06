@@ -2,17 +2,18 @@
 
 import type QuizCreatorPlugin from "../main";
 import { MarkdownRenderChild } from "obsidian";
-import { parseTest } from "../services/parseTest";
+import { parseQuiz } from "../services/parseQuiz";
 import { createRoot } from "react-dom/client";
 import { QuizViewComponent } from "../ui/components/QuizViewComponent"
 
 // Test
-export function registerTestProcessor (plugin: QuizCreatorPlugin) {
+export function registerQuizProcessor (plugin: QuizCreatorPlugin) {
   plugin.registerMarkdownCodeBlockProcessor ("quiz", (source, el, ctx) => {
-    const testQuestions = parseTest(source);
+
+    const quizQuestions = parseQuiz(source);
 
     const root = createRoot(el);
-    root.render(<QuizViewComponent testQuestions={testQuestions} />)
+    root.render(<QuizViewComponent quizQuestions={quizQuestions} />)
 
     // Desmontar react
     const child = new MarkdownRenderChild(el);

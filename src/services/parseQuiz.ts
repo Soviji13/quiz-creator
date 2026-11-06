@@ -161,7 +161,8 @@ function addToQuiz (
     const choiceBlock: ChoiceQuestionBlock = {
       id: crypto.randomUUID(),
       question: question,
-      choices: choiceAnswers
+      choices: choiceAnswers,
+      type: 'choice'
     };
     quiz.push(choiceBlock);
 
@@ -170,9 +171,10 @@ function addToQuiz (
     const openEndedBlock: OpenEndedBlock = {
       id: crypto.randomUUID(),
       question: question,
-      correctAnswer: openEndedAnswer
+      correctAnswer: openEndedAnswer,
+      type: 'open-ended'
     }
 
     quiz.push(openEndedBlock);
   }
-}
+} 
