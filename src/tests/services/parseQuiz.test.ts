@@ -124,6 +124,75 @@ describe("happy path - pregunta de desarrollo", () => {
   });
 });
 
+describe("soporte de palabras clave en preguntas de desarrollo ('*')", () => {
+  it("debe extraer una única palabra clave de la respuesta", () => {
+    const input = `
+# Pregunta de desarrollo
+> El río más largo es el *Amazonas*.
+`;
+    const result = parseQuiz(input) as OpenEndedBlock[];
+
+    expect(result).toHaveLength(1);
+    expect(result[0]?.correctAnswer.keyWords).toEqual(["Amazonas"]);
+  });
+
+  it("debe extraer múltiples palabras clave en la misma respuesta", () => {
+    const input = `
+# Pregunta de desarrollo
+> En *1989* nació *Taylor Swift* en *Pensilvania*.
+`;
+    const result = parseQuiz(input) as OpenEndedBlock[];
+
+    expect(result).toHaveLength(1);
+    expect(result[0]?.correctAnswer.keyWords).toEqual([
+      "1989",
+      "Taylor Swift",
+      "Pensilvania",
+    ]);
+  });
+
+  it("debe limpiar los espacios en blanco dentro de los asteriscos", () => {
+    const input = `
+# Pregunta
+> La fórmula es *   E = mc^2   *.
+`;
+    const result = parseQuiz(input) as OpenEndedBlock[];
+
+    expect(result[0]?.correctAnswer.keyWords).toEqual(["E = mc^2"]);
+  });
+
+  it("debe ignorar asteriscos vacíos seguidos o que solo contengan espacios", () => {
+    const input = `
+# Pregunta con asteriscos vacíos
+> Asteriscos ** y con espacios *   * más una *válida*.
+`;
+    const result = parseQuiz(input) as OpenEndedBlock[];
+
+    expect(result[0]?.correctAnswer.keyWords).toEqual(["válida"]);
+  });
+
+  it("no debe extraer palabras clave si no hay asteriscos de cierre", () => {
+    const input = `
+# Pregunta con asterisco huérfano
+> Esta respuesta tiene un *asterisco sin cerrar.
+`;
+    const result = parseQuiz(input) as OpenEndedBlock[];
+
+    expect(result[0]?.correctAnswer.keyWords).toEqual([]);
+  });
+
+  it("debe mantener el texto completo con asteriscos en la propiedad answer", () => {
+    const input = `
+# Pregunta
+> Respuesta con *keyword*.
+`;
+    const result = parseQuiz(input) as OpenEndedBlock[];
+
+    expect(result[0]?.correctAnswer.answer).toBe("Respuesta con keyword.");
+  });
+});
+
+
 describe("múltiples preguntas y separadores", () => {
   it("debe parsear varias preguntas separadas por '---' combinando con y sin explicaciones", () => {
     const input = `

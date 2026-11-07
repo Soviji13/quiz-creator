@@ -12,9 +12,10 @@ import { escapeRegex } from "../utils/regex";
  * [x] Respuesta correcta
  * [] Respuesta
  * [] Respuesta
+ * ? Explicación opcional
  * ---
  * # Pregunta de desarrollo
- * > Respuesta
+ * > Respuesta con *palabras clave* que deben ponerse en la respuesta del *usuario*
  * ```
 **/
 
@@ -32,6 +33,7 @@ const GOOD_TEST_ANSWER_INDICATOR = 'x';
 
 // Constantes del tipo desarrollo
 const OPEN_ENDED_ANSWER_INDICATOR = '>';
+const KEYWORD_INDICATOR = '*';
 
 
 /* Función principal */
@@ -72,9 +74,9 @@ export function parseQuiz (input: string): QuizQuestion[] {
         explanation = line.replace(EXP_INDICATOR, "").trim();
         gotExplanation = true;
 
-      // Si es una respuesta tipo test
       }
       
+      // Si es una respuesta tipo test
       else if (!isOpenEnded && line.match(CHOICE_REGEX)) {
         const choiceParsed = createChoice(line.match(CHOICE_REGEX));
         if (choiceParsed) {
@@ -122,6 +124,18 @@ const CHOICE_REGEX = (() => {
   return new RegExp(`^\\s*${safeOpen}\\s*(${safeMarker})?\\s*${safeClose}\\s*(.+)$`, 'i');
 })();
 
+/* Constante auxiliar para devolver las palabras clave */
+const KEYWORDS_REGEX = (() => {
+  const safeMarker = escapeRegex(KEYWORD_INDICATOR);
+
+  /**
+   * [0] -> Línea completa que coincidió
+   * [1] -> Palabras clave
+   */
+
+  return new RegExp(`${safeMarker}([^${safeMarker}]*)${safeMarker}`, `g`);
+})();
+
 
 
 /* Función auxiliar para almacenar las elecciones de un tipo test */
@@ -146,13 +160,23 @@ const createChoice = (input: RegExpMatchArray | null) => {
 
 /* Función auxiliar para registrar una respuesta de desarrollo */
 const createOpenEndedAnswer = (input: string) => {
-  const openEndedText = input.replace(OPEN_ENDED_ANSWER_INDICATOR, '').trim();
+
+  // Limpiamos el texto
+  const openEndedText = input.replace(OPEN_ENDED_ANSWER_INDICATOR, '').replaceAll(KEYWORD_INDICATOR, '').trim();
+
+  // Obtenemos las palabras clave
+  let keyWords: string[] = [];
+  const regexKeyWords = input.matchAll(KEYWORDS_REGEX);
+
+  if (regexKeyWords) {
+    keyWords = Array.from(regexKeyWords, (kw) => kw[1]?.trim()).filter((kw): kw is string => Boolean(kw));
+  }
 
   if (openEndedText) {
     const answer: OpenEndedAnswer = {
       id: crypto.randomUUID(),
       answer: openEndedText,
-      keyWords: []
+      keyWords: keyWords
     };
     return answer;   
   }

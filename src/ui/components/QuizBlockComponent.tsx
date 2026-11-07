@@ -16,7 +16,7 @@ export function QuizBlockComponent ({question, children, showResults, explanatio
       </div>
       {showResults && explanation && 
       <details className="quiz-creator-explanation">
-        <summary><em>Ver explicación:</em></summary>
+        <summary><em>Ver explicación / consejo:</em></summary>
         <p><em>{explanation}</em></p>
       </details>
       }

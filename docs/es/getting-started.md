@@ -14,6 +14,7 @@ Para saber los conceptos básicos, vamos a realizar un Quiz de cultura general p
 
 - [Estructura básica de un Quiz](#estructura-básica-de-un-quiz)
 - [Creando tipo test](#creando-tipo-test)
+- [Creando preguntas abiertas](#creando-preguntas-abiertas)
 
 ## Estructura básica de un Quiz
 
@@ -21,10 +22,12 @@ Para saber los conceptos básicos, vamos a realizar un Quiz de cultura general p
 ```quiz
 
 # Pregunta 1
+? Explicación
 
 ---
 
 # Pregunta 2
+? Explicación
 
 ```
 ~~~~
@@ -34,6 +37,8 @@ Esta estructura es la más importante. **La palabra `quiz` debe ser añadida** p
 - Con `#` indicas que el texto a continuación *(sin saltos de línea)* es una **pregunta o enunciado**, independientemente del tipo que quieras que sea.
 
 - Con `---` indicas que a continuación vendrá otra pregunta *(no debe ir acompañado de texto)*, por lo que actúa como un **separador**.
+
+- Con `?` añadiremos una **explicación** de la respuesta correcta al **mostrar los resultados**. Se puede usar para cualquier fin distinto, como por ejemplo añadir un tip para acordarnos o reflexionarla. Es **opcional**.
 
 - Al **pulsar fuera del bloque** de preguntas y respuestas, **se renderiza la vista** y podrás interactuar con el quiz creado. Al final de todas las preguntas visualizarás dos botones:
   - **Comprobar resultados**: Al hacer click verás dónde acertaste y fallaste junto a la puntuación total
@@ -52,6 +57,8 @@ Ahora que sabes cómo funciona un Quiz, escribamos algunas preguntas tipo test p
 [] Valencia
 [] Málaga
 
+? Todas son ciudades de España reconocidas y populares. Sin embargo, Madrid, que se encuentra en el centro del país, es la capital.
+
 ---
 
 # ¿Cuánto es 23 * 9?
@@ -60,6 +67,8 @@ Ahora que sabes cómo funciona un Quiz, escribamos algunas preguntas tipo test p
 [] 203
 [x] 207
 [] 196
+
+? Truco para hacerlo más fácil: 23 * 9 = (20 + 3) * 9 = (20 * 9) + (3 * 9) = 180 + 27 = 207
 
 ---
 
@@ -77,3 +86,29 @@ Ahora que sabes cómo funciona un Quiz, escribamos algunas preguntas tipo test p
 
 > [!note] Nota
 > Puedes poner tantas respuestas como quieras, a lo mismo que correctas
+
+## Creando preguntas abiertas
+
+Vamos a subir un poco más el nivel! Acuérdate de añadir un separador entre la última pregunta tipo test y estas siguientes.
+
+~~~~markdown
+```quiz
+# ¿En qué año llegó Cristóbal Colón a América y a qué territorio creía haber llegado inicialmente?
+
+> Cristóbal Colón llegó a América en el año 1492. Inicialmente creyó haber llegado a Asia, específicamente a las islas de las Indias Occidentales.
+
+---
+
+# ¿Cuáles son los cinco sabores primarios que percibe el sentido del gusto humano?
+
+> Dulce, salado, ácido, amargo y umami.
+
+---
+
+# ¿Cuántas teclas negras y blancas conforman un piano estándar?
+
+> 52 teclas blancas y 36 teclas negras.
+```
+~~~~
+
+- Con `>` seguido del texto, indicas la **respuesta** esperada.

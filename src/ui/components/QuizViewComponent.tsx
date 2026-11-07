@@ -46,7 +46,15 @@ export function QuizViewComponent ({ quizQuestions }: {quizQuestions: QuizQuesti
           /* Tipo desarrollo */
           : block.type === 'open-ended' 
           ? (
-            <textarea cols={90} rows={3} placeholder="Inserte su respuesta"></textarea>
+            <div>
+              <textarea cols={90} rows={3} placeholder="Inserte su respuesta"></textarea>
+              {showResults && 
+                <div className="quiz-creator-explanation expected-response">
+                  <p><b>Respuesta esperada:</b></p>
+                  <p>{block.correctAnswer.answer}</p>
+                </div>
+              }
+            </div>
           ) : (<p>No se corresponde a ningún tipo</p>)
         }
           <p></p>
