@@ -24,6 +24,7 @@ import { escapeRegex } from "../utils/regex";
 const QUESTION_INDICATOR = '#';
 const INPUT_QUIZ_SEPARATOR = /\r?\n+\s*---\s*\r?\n+\s*/;
 const LINE_QUIZ_SEPARATOR = /\r?\n+\s*/;
+const EXP_INDICATOR = '?';
 
 // Constantes del tipo test
 const TEST_ANSWER_INDICATOR: [string, string] = [`[`, `]`];
@@ -47,6 +48,9 @@ export function parseQuiz (input: string): QuizQuestion[] {
     let question = '';
     let gotQuestion = false;
 
+    let explanation = '';
+    let gotExplanation = false;
+
     let isChoice = false;
     let isOpenEnded = false;
 
@@ -58,13 +62,20 @@ export function parseQuiz (input: string): QuizQuestion[] {
 
       line = line.trim();
 
-      // Si es una pregunta
+      // Si es el enunciado
       if (line.startsWith(QUESTION_INDICATOR) && !gotQuestion) {
         question = line.replace(QUESTION_INDICATOR, "").trim();
         gotQuestion = true;
 
+      // Si es la explicación 
+      } else if (line.startsWith(EXP_INDICATOR) && !gotExplanation) {
+        explanation = line.replace(EXP_INDICATOR, "").trim();
+        gotExplanation = true;
+
       // Si es una respuesta tipo test
-      } else if (!isOpenEnded && line.match(CHOICE_REGEX)) {
+      }
+      
+      else if (!isOpenEnded && line.match(CHOICE_REGEX)) {
         const choiceParsed = createChoice(line.match(CHOICE_REGEX));
         if (choiceParsed) {
           choiceAnswers.push(choiceParsed);
@@ -82,7 +93,11 @@ export function parseQuiz (input: string): QuizQuestion[] {
     }
 
     // Construimos la pregunta
-    if (gotQuestion) addToQuiz (isOpenEnded, isChoice, openEndedAnswer, choiceAnswers, output, question);
+    if (gotExplanation && gotQuestion) {
+      addToQuiz (isOpenEnded, isChoice, openEndedAnswer, choiceAnswers, output, question, explanation);
+    } else if (gotQuestion) {
+      addToQuiz (isOpenEnded, isChoice, openEndedAnswer, choiceAnswers, output, question);
+    }
   }
 
   return output;
@@ -153,7 +168,8 @@ function addToQuiz (
   openEndedAnswer: OpenEndedAnswer, 
   choiceAnswers: ChoiceAnswer[], 
   quiz: QuizQuestion[],
-  question: string
+  question: string,
+  explanation?: string
 ): void {
 
   // Si es multiopción
@@ -164,6 +180,9 @@ function addToQuiz (
       choices: choiceAnswers,
       type: 'choice'
     };
+
+    if (explanation) choiceBlock.explanation = explanation;
+    
     quiz.push(choiceBlock);
 
   // Si es de desarrollo
@@ -174,6 +193,8 @@ function addToQuiz (
       correctAnswer: openEndedAnswer,
       type: 'open-ended'
     }
+
+    if (explanation) openEndedBlock.explanation = explanation;
 
     quiz.push(openEndedBlock);
   }

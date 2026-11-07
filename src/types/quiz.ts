@@ -9,6 +9,7 @@ export interface QuizBlock {
   id: string;
   question: string;
   type: QuestionType;
+  explanation?: string;
 }
 
 // Tipos de preguntas y respuestas
