@@ -8,8 +8,6 @@ import { OVER_SCORE } from '../../constants'
 
 export function QuizViewComponent ({ quizQuestions }: {quizQuestions: QuizQuestion[]}) {
 
-  console.log("quizQuestions en la vista:", quizQuestions);
-  
   const { 
     toggleTestAnswer, 
     testSelections, 

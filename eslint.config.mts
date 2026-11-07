@@ -15,6 +15,8 @@ export default defineConfig(
 		'pnpm-workspace.yaml',
 		'tsconfig.json',
 		'coverage',
+		'docs/.vitepress/cache', 
+		'docs/.vitepress/dist',
 	]),
 	{
 		languageOptions: {
@@ -23,7 +25,13 @@ export default defineConfig(
 			},
 			parserOptions: {
 				projectService: {
-					allowDefaultProject: ['eslint.config.mts', 'manifest.json', 'vitest.config.ts', 'eslint-plugin-obsidian.d.ts'],
+					allowDefaultProject: [
+						'eslint.config.mts', 
+						'manifest.json', 
+						'vitest.config.ts', 
+						'eslint-plugin-obsidian.d.ts',
+						'docs/.vitepress/config.ts'
+					],
 				},
 				tsconfigRootDir: import.meta.dirname,
 				extraFileExtensions: ['.json'],

@@ -5,13 +5,12 @@ import { Result } from "../../types/results";
 import { ChoiceQuestionBlock } from "../../types/questions";
 import { evaluateChoices } from "../../services/evaluateChoices";
 import { OVER_SCORE } from "../../constants";
-
-type TestSelections = Record<string, string[]>;
+import type { UserTestSelections } from "../../types/answers";
 
 export function useTest () {
 
   // Se inicializa a 0
-  const [testSelections, setTestSelections] = useState<TestSelections>({});
+  const [testSelections, setTestSelections] = useState<UserTestSelections>({});
   const [showResults, setShowResults] = useState(false);
   const [quizResult, setQuizResult] = useState<Result>({
     totalQuestions: 0,
@@ -43,10 +42,11 @@ export function useTest () {
 
   };
 
-  /* Obtener los resultados del desarrollo - Auxiliar, aún no implementada */
+  /* Obtener los resultados del desarrollo - Auxiliar, aún no implementada 
   const getOpenEndedResults = () => {
     return 0;
   };
+  */
 
   /* Posteriormente actualizar también con las de desarrollo */
   const getResults = (testQuestions: ChoiceQuestionBlock[]) => {
@@ -59,7 +59,7 @@ export function useTest () {
     });
 
     setScore(5);
-    //setScore(quizResult.correctCount / quizResult.totalQuestions * OVER_SCORE);
+    setScore((quizResult.correctCount / quizResult.totalQuestions) * OVER_SCORE);
   }
 
 

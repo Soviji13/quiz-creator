@@ -15,4 +15,4 @@ export interface OpenEndedAnswer {
 }
 
 // Lo que el usuario introduce en el tipo test
-type UserTestSelections = Record<string, string[]>;
+export type UserTestSelections = Record<string, string[]>;
