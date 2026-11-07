@@ -1,0 +1,19 @@
+/* Estilo de un bloque que contiene pregunta y respuestas */
+
+.quiz-creator-quiz-block {
+  border-bottom: 1px solid var(--background-modifier-border); 
+
+  box-sizing: border-box; 
+  margin: 20px 0;
+  padding: 0 15px 10px 15px;
+  
+  cursor: default;
+}
+
+.quiz-creator-explanation {
+  border-left: 2px solid var(--color-blue);
+  background-color: color-mix(in srgb, var(--color-blue) 30%, transparent 70%);
+  padding: 5px 10px;
+  border-radius: 0 10px 10px 0;
+  font-size: small;
+}

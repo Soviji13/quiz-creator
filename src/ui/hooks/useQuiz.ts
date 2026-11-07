@@ -16,7 +16,8 @@ export function useTest () {
     totalQuestions: 0,
     correctCount: 0,
   });
-  const [score, setScore] = useState(0);
+  
+  const [score, setScore] = useState<number>(0);
 
   /* Marcar o desmarcar tipo test */
   const toggleTestAnswer = (answerId: string, questionId: string) => {
@@ -58,8 +59,8 @@ export function useTest () {
       correctCount: choicesResults.correctCount
     });
 
-    setScore(5);
-    setScore((quizResult.correctCount / quizResult.totalQuestions) * OVER_SCORE);
+    const s = (quizResult.correctCount / quizResult.totalQuestions);
+    setScore(s);
   }
 
 

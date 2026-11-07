@@ -5,6 +5,7 @@ import { TestAnswerComponent } from "./TestAnswerComponent"
 import { useTest } from "../hooks/useQuiz"
 import { QuizQuestion } from "../../types/quiz";
 import { OVER_SCORE } from '../../constants'
+import { QuizBlockComponent } from "./QuizBlockComponent";
 
 export function QuizViewComponent ({ quizQuestions }: {quizQuestions: QuizQuestion[]}) {
 
@@ -20,38 +21,37 @@ export function QuizViewComponent ({ quizQuestions }: {quizQuestions: QuizQuesti
   
   return (
     <div>
-      { quizQuestions.map((block, i) => {
-
-          /* Tipo test */ 
-          if (block.type === 'choice') {
-            return (
-              <TestBlockComponent 
-                question={`${i+1}. ${block.question}`} 
+      { quizQuestions.map((block, i) => (
+        <QuizBlockComponent
+          question={`${i+1}. ${block.question}`} 
+          showResults={showResults}
+          key={block.id}
+          {...(block.explanation && { explanation: block.explanation })} 
+        >
+          {/* Tipo test */}
+          { block.type === 'choice' 
+          ? (
+            block.choices.map((choice) => (
+              <TestAnswerComponent
+                isActive={ testSelections[block.id]?.includes(choice.id) ?? false}
+                key={choice.id}
                 showResults={showResults}
-                key={block.id}
+                isCorrect={choice.correct}
+                onClick={() => toggleTestAnswer(choice.id, block.id)}
               >
-                { block.choices.map((choice, i) => (
-                  <TestAnswerComponent
-                    isActive={ testSelections[block.id]?.includes(choice.id) ?? false}
-                    key={choice.id}
-                    showResults={showResults}
-                    isCorrect={choice.correct}
-                    onClick={() => toggleTestAnswer(choice.id, block.id)}
-                  >
-                    {choice.text}
-                  </TestAnswerComponent>
-                ))}
-              </TestBlockComponent>
-            );
-          }
-
-          /* Desarrollo */
-          if (block.type === 'open-ended') {
-            return (
-              <p>Posteriormente se lanzará...</p>
-            )
-          }
-      })} 
+                {choice.text}
+              </TestAnswerComponent>
+            ))
+          ) 
+          /* Tipo desarrollo */
+          : block.type === 'open-ended' 
+          ? (
+            <textarea cols={90} rows={3} placeholder="Inserte su respuesta"></textarea>
+          ) : (<p>No se corresponde a ningún tipo</p>)
+        }
+          <p></p>
+        </QuizBlockComponent>
+      ))} 
       <div style={{display: 'flex', alignItems: 'center'}}>
         <button 
           className="button"
