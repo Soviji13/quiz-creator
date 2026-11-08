@@ -2,15 +2,21 @@
 
 import { useState } from "react";
 import { Result } from "../../types/results";
-import { ChoiceQuestionBlock } from "../../types/questions";
+import { ChoiceQuestionBlock, OpenEndedBlock } from "../../types/questions";
 import { evaluateChoices } from "../../services/evaluateChoices";
 import { OVER_SCORE } from "../../constants";
-import type { UserTestSelections } from "../../types/answers";
+import type { UserOpenEndedAnswers, UserTestSelections } from "../../types/answers";
+import { QuizBlock } from "../../types/quiz";
+import { evaluateOpenEnded } from "../../services/evaluateOpenEnded";
 
 export function useTest () {
 
-  // Se inicializa a 0
+  // Tipo test
   const [testSelections, setTestSelections] = useState<UserTestSelections>({});
+
+  // Tipo abierta
+  const [openEndedSelections, setOpenEndedSelections] = useState<UserOpenEndedAnswers>({});
+
   const [showResults, setShowResults] = useState(false);
   const [quizResult, setQuizResult] = useState<Result>({
     totalQuestions: 0,
@@ -25,6 +31,7 @@ export function useTest () {
 
       const selectedAnswers = prev[questionId] ?? [];
 
+      // Si la pregunta ya contenía a la respuesta, la quitamos. En caso contrario, la añadimos
       const updatedSelectedAnswers = selectedAnswers.includes(answerId) 
         ? selectedAnswers.filter(id => answerId !== id) 
         : [...selectedAnswers, answerId]
@@ -36,45 +43,58 @@ export function useTest () {
     });
   };
 
-  /* Obtener los resultados del tipo test - Auxiliar */
-  const getChoicesResults = (testQuestions: ChoiceQuestionBlock[]): Result => {
+  /* Ir actualizando los valores de los inputs de preguntas abiertas */
+  const updateOpenEndedSelection = (questionId: string, input: string) => {
+    setOpenEndedSelections((prev) => {
+      return {
+        ...prev,
+        [questionId]: input
+      };
+    });
+  };
+
+  /* Obtener resultados globales */
+  const getResults = (quizQuestions: QuizBlock[]) => {
+
+    // Obtenemos los tipo test
+    const testQuestions: ChoiceQuestionBlock[] = quizQuestions.filter((q): q is ChoiceQuestionBlock => q.type === 'choice')
+    const choicesResults = evaluateChoices(testQuestions, testSelections);
+
+    // Obtenemos las tipo abiertas
+    const openEndedQuestions: OpenEndedBlock[] = quizQuestions.filter((q): q is OpenEndedBlock => q.type === 'open-ended')
+    const openEndedResults = evaluateOpenEnded(openEndedQuestions, openEndedSelections);
+    
+    const correctCount: number = choicesResults.correctCount + openEndedResults.correctCount;
+    const totalQuestions: number = choicesResults.totalQuestions + openEndedResults.totalQuestions;
+
     setShowResults(true);
-    return(evaluateChoices(testQuestions, testSelections));
-
-  };
-
-  /* Obtener los resultados del desarrollo - Auxiliar, aún no implementada 
-  const getOpenEndedResults = () => {
-    return 0;
-  };
-  */
-
-  /* Posteriormente actualizar también con las de desarrollo */
-  const getResults = (testQuestions: ChoiceQuestionBlock[]) => {
-
-    const choicesResults = getChoicesResults(testQuestions);
 
     setQuizResult({
-      totalQuestions: choicesResults.totalQuestions,
-      correctCount: choicesResults.correctCount
+      totalQuestions: totalQuestions,
+      correctCount: correctCount
     });
 
-    const s = (quizResult.correctCount / quizResult.totalQuestions);
-    setScore(s);
+    setScore(totalQuestions > 0 
+      ? Number((correctCount / totalQuestions * OVER_SCORE).toFixed(2))
+      : 0
+    );
   }
 
 
   /* Limpiar vistas */
-  const clearTestSelections = () => {
+  const clearSelections = () => {
     setTestSelections({});
+    setOpenEndedSelections({});
     setQuizResult({totalQuestions: 0, correctCount: 0});
     setShowResults(false);
   };
 
   return { 
     toggleTestAnswer, 
+    updateOpenEndedSelection,
     testSelections, 
-    clearTestSelections,
+    openEndedSelections,
+    clearSelections,
     getResults,
     showResults,
     quizResult,

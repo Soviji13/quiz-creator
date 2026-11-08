@@ -1,18 +1,20 @@
 /* Vista de un quiz */
 
-import { TestBlockComponent } from "./TestBlockComponent"
 import { TestAnswerComponent } from "./TestAnswerComponent"
 import { useTest } from "../hooks/useQuiz"
 import { QuizQuestion } from "../../types/quiz";
 import { OVER_SCORE } from '../../constants'
 import { QuizBlockComponent } from "./QuizBlockComponent";
+import { OpenEndedAnswerComponent } from "./OpenEndedAnswerComponent";
 
 export function QuizViewComponent ({ quizQuestions }: {quizQuestions: QuizQuestion[]}) {
 
   const { 
-    toggleTestAnswer, 
+    toggleTestAnswer,
+    updateOpenEndedSelection, 
     testSelections, 
-    clearTestSelections,
+    openEndedSelections,
+    clearSelections,
     getResults,
     showResults,
     quizResult,
@@ -43,36 +45,33 @@ export function QuizViewComponent ({ quizQuestions }: {quizQuestions: QuizQuesti
               </TestAnswerComponent>
             ))
           ) 
+
           /* Tipo desarrollo */
           : block.type === 'open-ended' 
           ? (
-            <div>
-              <textarea cols={90} rows={3} placeholder="Inserte su respuesta"></textarea>
-              {showResults && 
-                <div className="quiz-creator-explanation expected-response">
-                  <p><b>Respuesta esperada:</b></p>
-                  <p>{block.correctAnswer.answer}</p>
-                </div>
-              }
-            </div>
+            <OpenEndedAnswerComponent 
+              showResults={showResults}
+              blockId={block.id}
+              updateAnswer={updateOpenEndedSelection}
+              answer={block.correctAnswer.answer}
+              value={openEndedSelections[block.id] ?? ""}
+              keyWords={block.correctAnswer.keyWords}
+            />
           ) : (<p>No se corresponde a ningún tipo</p>)
         }
-          <p></p>
         </QuizBlockComponent>
       ))} 
       <div style={{display: 'flex', alignItems: 'center'}}>
         <button 
           className="button"
-          onClick={() => {getResults(quizQuestions.filter (
-            (q) => {return q.type === 'choice'})
-          )}}
+          onClick={() => {getResults(quizQuestions)}}
         >
           Comprobar resultados
         </button>
         <button 
           className="button"
           type="button"
-          onClick={() => clearTestSelections()}
+          onClick={() => clearSelections()}
         >
           Limpiar
         </button>

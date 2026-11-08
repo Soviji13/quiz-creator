@@ -95,20 +95,21 @@ Vamos a subir un poco más el nivel! Acuérdate de añadir un separador entre la
 ```quiz
 # ¿En qué año llegó Cristóbal Colón a América y a qué territorio creía haber llegado inicialmente?
 
-> Cristóbal Colón llegó a América en el año 1492. Inicialmente creyó haber llegado a Asia, específicamente a las islas de las Indias Occidentales.
+> Cristóbal Colón llegó a América en el año *1492*. Inicialmente creyó haber llegado a *Asia*, específicamente a las islas de las Indias Occidentales.
 
 ---
 
 # ¿Cuáles son los cinco sabores primarios que percibe el sentido del gusto humano?
 
-> Dulce, salado, ácido, amargo y umami.
+> *Dulce*, *salado*, *ácido*, *amargo* y *umami*.
 
 ---
 
 # ¿Cuántas teclas negras y blancas conforman un piano estándar?
 
-> 52 teclas blancas y 36 teclas negras.
+> *52* teclas blancas y *36* teclas negras.
 ```
 ~~~~
 
 - Con `>` seguido del texto, indicas la **respuesta** esperada.
+- Si **envuelves una palabra entre `*`** *(por ejemplo `*importante*`)*, indicas que esa palabra **debe estar incluida en la respuesta** para ser marcada como válida. La nota de esa pregunta se calculará en base a cuántas palabras críticas marcadas coincidieron con tu respuesta.

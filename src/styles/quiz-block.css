@@ -10,17 +10,19 @@
   cursor: default;
 }
 
+/* Explicación '?' */
 .quiz-creator-explanation {
   border-left: 2px solid var(--color-blue);
-  background-color: color-mix(in srgb, var(--color-blue) 30%, transparent 70%);
-  padding: 5px 10px;
+  background-color: color-mix(in srgb, var(--color-blue) 10%, transparent 90%);
+  padding: 5px 15px;
   border-radius: 0 10px 10px 0;
   font-size: small;
   box-sizing: border-box;
 
+  /* Respuesta esperada '>' */
   &.expected-response {
     margin-top: 15px;
-    background-color: color-mix(in srgb, var(--color-green) 30%, transparent 70%);
+    background-color: color-mix( in srgb, var(--background-modifier-border) 40%, transparent 60%);
     border-left: 2px solid var(--color-green);
   }
 }

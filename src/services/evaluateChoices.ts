@@ -9,7 +9,7 @@ import type { Result } from "../types/results";
 export function evaluateChoices (testQuestions: ChoiceQuestionBlock[], userAnswers: Record<string, string[]>): Result {
 
   let correctCount = 0;
-  let totalQuestions = 0;
+  let totalQuestions = testQuestions.length;
 
   // Iteramos sobre cada pregunta
   for (const question of testQuestions) {
@@ -29,7 +29,6 @@ export function evaluateChoices (testQuestions: ChoiceQuestionBlock[], userAnswe
     if (correctAnswers.length > 0) {
       correctCount += correctUserCount/correctAnswers.length;
     }
-    totalQuestions++;
   }
 
   return {

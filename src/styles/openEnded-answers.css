@@ -1,0 +1,7 @@
+.quiz-creator-keyword-highlight {
+  background-color: color-mix(in srgb, var(--color-green) 40%, transparent 60%);
+
+  &.red {
+    background-color: color-mix(in srgb, var(--color-red) 40%, transparent 60%);
+  }
+}

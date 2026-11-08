@@ -12,8 +12,8 @@ hero:
       link: /getting-started
 
 features:
-  - title: Crear un quiz 
-    details: Puedes crear preguntas tipo test y/o de desarrollo/cortas, además de evaluarte!
+  - title: Create a quiz
+    details: You can create multiple-choice and/or short/open-ended questions, and test yourself!
   - title: Feature B
     details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
   - title: Feature C
