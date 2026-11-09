@@ -4,6 +4,7 @@ import { defineConfig } from 'vitepress'
 export default defineConfig({
   title: "Quiz Creator",
   description: "Interactive Quiz Parser for Obsidian",
+  base: "/quiz-creator/",
 
   locales: {
     root: {
