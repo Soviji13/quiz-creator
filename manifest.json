@@ -2,7 +2,7 @@
 	"id": "quiz-creator",
 	"name": "Quiz Creator",
 	"version": "1.0.0",
-	"minAppVersion": "1.14.4",
+	"minAppVersion": "1.14.0",
 	"description": "A simple quiz creator, specifically designed for exams",
 	"author": "Soviji13",
 	"authorUrl": "https://github.com/Soviji13",
