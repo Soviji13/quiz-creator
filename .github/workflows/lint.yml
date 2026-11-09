@@ -31,10 +31,11 @@ jobs:
                   node-version: ${{ matrix.node-version }}
                   cache: 'pnpm'
             - run: pnpm install --frozen-lockfile
+            - run: pnpm install --save-dev vitest @vitest/coverage-v8
             - run: pnpm run lint
             - run: pnpm test
             - run: pnpm run build
-            - run: pnpm exec vitest run --coverage
+            - run: npx vitest run --coverage
             - uses: codecov/codecov-action@v5
               with:
                 token: ${{ secrets.CODECOV_TOKEN }}
