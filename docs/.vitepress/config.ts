@@ -13,14 +13,15 @@ export default defineConfig({
       themeConfig: {
         nav: [
           { text: 'Home', link: '/' },
-          { text: 'Getting Started', link: '/getting-started' }
+          { text: 'Create your first quiz', link: '/create-your-first-quiz' }
         ],
         sidebar: [
-          { 
-            text: 'Examples',
+          {
+            text: 'Getting started',
+            collapsed: false,
             items: [
-              { text: 'Markdown Examples', link: '/markdown-examples' },
-              { text: 'Runtime API Examples', link: '/api-examples' }
+              { text: 'Install the plugin', link: '/install-the-plugin'},
+              { text: 'Create your first quiz', link: '/create-your-first-quiz' }
             ]
           }
         ],
@@ -35,14 +36,15 @@ export default defineConfig({
       themeConfig: {
         nav: [
           { text: 'Inicio', link: '/es/' },
-          { text: 'Primeros pasos', link: '/es/getting-started' }
+          { text: 'Crea tu primer quiz', link: '/es/create-your-first-quiz' }
         ],
         sidebar: [
-          { 
+          {
             text: 'Primeros pasos',
+            collapsed: false,
             items: [
-              { text: 'Markdown Examples', link: '/markdown-examples' },
-              { text: 'Runtime API Examples', link: '/api-examples' }
+              { text: 'Instala el plugin', link: '/es/install-the-plugin'},
+              { text: 'Crea tu primer quiz', link: '/es/create-your-first-quiz' }
             ]
           }
         ],

@@ -9,7 +9,7 @@ hero:
   actions:
     - theme: brand
       text: Getting Started
-      link: /getting-started
+      link: /create-your-first-quiz
 
 features:
   - title: Create a quiz
